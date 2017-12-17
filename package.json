@@ -1,0 +1,35 @@
+{
+  "name": "@xmpp/client",
+  "repository": "github:xmppjs/xmpp.js",
+  "homepage": "http://github.com/xmppjs/xmpp.js",
+  "bugs": "http://github.com/xmppjs/xmpp.js/issues",
+  "version": "0.3.0",
+  "license": "ISC",
+  "dependencies": {
+    "@xmpp/client-core": "^0.3.0",
+    "@xmpp/plugins": "^0.3.0",
+    "@xmpp/reconnect": "^0.3.0",
+    "@xmpp/tcp": "^0.3.0",
+    "@xmpp/tls": "^0.3.0",
+    "@xmpp/websocket": "^0.3.0",
+    "object.entries": "^1.0.4"
+  },
+  "browser": {
+    "@xmpp/tcp": false,
+    "@xmpp/tls": false,
+    "@xmpp/plugins/starttls": false,
+    "@xmpp/plugins/sasl-scram-sha-1": false,
+    "object.entries": false
+  },
+  "scripts": {
+    "prepublish": "npm run bundle && npm run minify",
+    "bundle":
+      "../../node_modules/.bin/browserify -p common-shakeify -p browser-pack-flat/plugin -d -s xmpp index.js | ../../node_modules/.bin/exorcist dist/xmpp.js.map > dist/xmpp.js",
+    "minify":
+      "../../node_modules/uglify-es/bin/uglifyjs dist/xmpp.js -c -m --source-map url=xmpp.min.js.map,content=dist/xmpp.js.map -o dist/xmpp.min.js"
+  },
+  "engines": {
+    "node": ">= 6",
+    "npm": ">= 2"
+  }
+}
